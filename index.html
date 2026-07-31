@@ -1,1 +1,2377 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OOP Teaching Quiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #000;
+      --white: #fff;
+      --gray-50: #fafafa;
+      --gray-100: #f5f5f5;
+      --gray-200: #e5e5e5;
+      --gray-300: #d4d4d4;
+      --gray-400: #a3a3a3;
+      --gray-500: #737373;
+      --gray-600: #525252;
+      --gray-700: #404040;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Inter', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --transition: 0.25s ease;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--white);
+      color: var(--black);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── NAVIGATION ─────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+    }
+
+    .nav-logo {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 700;
+      font-size: 1.25rem;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--black);
+    }
+
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+
+    .nav-link {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      color: var(--gray-500);
+      transition: color var(--transition);
+      background: none;
+      border: none;
+      font-family: var(--font-sans);
+    }
+
+    .nav-link:hover, .nav-link.active { color: var(--black); }
+
+    /* ── SECTIONS ───────────────────────────────────────── */
+    .section { display: none; min-height: 100vh; padding-top: 60px; }
+    .section.active { display: block; }
+
+    /* ── LANDING ────────────────────────────────────────── */
+    .hero {
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      animation: fadeUp 0.9s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    .hero-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(3rem, 10vw, 7rem);
+      font-weight: 600;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title em { font-style: italic; }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--gray-600);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+
+    /* ── BUTTONS ─────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 2rem;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all var(--transition);
+    }
+
+    .btn-primary {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--black);
+    }
+
+    .btn-primary:hover { background: var(--gray-700); }
+
+    .btn-outline {
+      background: var(--white);
+      color: var(--black);
+      border-color: var(--black);
+    }
+
+    .btn-outline:hover { background: var(--gray-100); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--gray-500);
+      border-color: transparent;
+    }
+
+    .btn-ghost:hover { color: var(--black); }
+
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* ── ESSAY SECTION ───────────────────────────────────── */
+    .essay {
+      background: var(--gray-50);
+      border-top: 1px solid var(--gray-200);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 5rem 2rem;
+    }
+
+    .essay-inner {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .essay-inner h2 {
+      font-family: var(--font-serif);
+      font-size: 2.5rem;
+      font-style: italic;
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .essay-inner p {
+      font-size: 1rem;
+      color: var(--gray-700);
+      margin-bottom: 1.25rem;
+      line-height: 1.8;
+    }
+
+    .essay-inner code {
+      font-family: var(--font-mono);
+      font-size: 0.85em;
+      background: var(--gray-200);
+      padding: 0.1em 0.35em;
+    }
+
+    .essay-inner strong { color: var(--black); font-weight: 600; }
+
+    /* ── ARCHITECTURE TABLE ──────────────────────────────── */
+    .arch-section {
+      padding: 5rem 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .arch-section h2 {
+      font-family: var(--font-serif);
+      font-size: 2.5rem;
+      font-style: italic;
+      text-align: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .arch-section .subtitle {
+      text-align: center;
+      color: var(--gray-500);
+      font-size: 0.9rem;
+      margin-bottom: 3rem;
+    }
+
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .arch-card {
+      border: 1px solid var(--gray-200);
+      padding: 2rem;
+      background: var(--white);
+      transition: border-color var(--transition), transform var(--transition);
+    }
+
+    .arch-card:hover { border-color: var(--black); transform: translateY(-2px); }
+
+    .arch-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .arch-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--black);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .arch-card h3 { font-family: var(--font-mono); font-size: 1rem; font-weight: 600; }
+
+    .arch-pillar {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      margin-bottom: 0.6rem;
+    }
+
+    .arch-card p { font-size: 0.875rem; color: var(--gray-600); line-height: 1.65; }
+
+    .arch-card code {
+      font-family: var(--font-mono);
+      font-size: 0.82em;
+      background: var(--gray-100);
+      padding: 0.1em 0.3em;
+    }
+
+    /* ── OOP CLASS DEFINITIONS (for assignment writeup) ──── */
+    .code-section {
+      background: var(--gray-50);
+      border-top: 1px solid var(--gray-200);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 5rem 2rem;
+    }
+
+    .code-section-inner { max-width: 800px; margin: 0 auto; }
+
+    .code-section h2 {
+      font-family: var(--font-serif);
+      font-size: 2.2rem;
+      font-style: italic;
+      margin-bottom: 0.5rem;
+    }
+
+    .code-section .lead {
+      color: var(--gray-600);
+      margin-bottom: 2.5rem;
+      font-size: 0.95rem;
+    }
+
+    .code-block {
+      background: var(--black);
+      color: #e5e5e5;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      padding: 1.5rem;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+      white-space: pre;
+    }
+
+    .code-block .comment { color: #737373; }
+    .code-block .kw { color: #d4d4d4; font-weight: 600; }
+    .code-block .cls { color: #fff; font-weight: 700; }
+    .code-block .str { color: #a3a3a3; }
+
+    .code-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      margin-bottom: 0.4rem;
+    }
+
+    /* ── FOOTER ──────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--gray-200);
+      padding: 3rem 2rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--gray-400);
+    }
+
+    /* ── QUIZ PAGE ───────────────────────────────────────── */
+    .quiz-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+
+    .quiz-setup h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-style: italic;
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .setup-card {
+      border: 1px solid var(--gray-200);
+      padding: 2.5rem;
+      background: var(--white);
+    }
+
+    .setup-field { margin-bottom: 2rem; }
+
+    .setup-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      display: block;
+      margin-bottom: 0.75rem;
+    }
+
+    .chip-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+    .chip {
+      padding: 0.4rem 1rem;
+      border: 1px solid var(--gray-300);
+      font-size: 0.85rem;
+      cursor: pointer;
+      background: var(--white);
+      color: var(--black);
+      transition: all var(--transition);
+      font-family: var(--font-sans);
+    }
+
+    .chip:hover { border-color: var(--black); }
+    .chip.selected { background: var(--black); color: var(--white); border-color: var(--black); }
+
+    .select-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+    .styled-select {
+      width: 100%;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid var(--gray-300);
+      background: var(--white);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%23737373'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      padding-right: 2rem;
+    }
+
+    .styled-select:focus { outline: 1px solid var(--black); }
+
+    .setup-divider { border: none; border-top: 1px solid var(--gray-100); margin: 2rem 0; }
+
+    /* ── ACTIVE QUIZ ─────────────────────────────────────── */
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+
+    .quiz-meta-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      margin-bottom: 0.25rem;
+    }
+
+    .quiz-meta-value {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.1rem;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 2px;
+      background: var(--gray-200);
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--black);
+      transition: width 0.4s ease;
+    }
+
+    .timer-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      padding: 0.3rem 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .timer-badge.danger { color: #dc2626; border-color: #dc2626; }
+
+    .question-text {
+      font-size: clamp(1.25rem, 3vw, 1.75rem);
+      font-weight: 500;
+      margin-bottom: 2rem;
+      line-height: 1.4;
+      animation: slideIn 0.3s ease both;
+    }
+
+    .options-grid { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; }
+
+    .option-btn {
+      text-align: left;
+      padding: 1.25rem 1.5rem;
+      border: 1px solid var(--gray-200);
+      background: var(--white);
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all var(--transition);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: fadeIn 0.2s ease both;
+    }
+
+    .option-btn:hover:not(:disabled) { border-color: var(--black); background: var(--gray-50); }
+    .option-btn:disabled { cursor: default; }
+    .option-btn.correct { background: var(--black); color: var(--white); border-color: var(--black); }
+    .option-btn.wrong { background: var(--gray-100); color: var(--gray-400); border-color: var(--gray-200); text-decoration: line-through; }
+    .option-btn.dim { background: var(--white); color: var(--gray-300); border-color: var(--gray-100); opacity: 0.5; }
+
+    .option-icon { width: 20px; height: 20px; flex-shrink: 0; }
+
+    .explanation-box {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.3s ease both;
+    }
+
+    .explanation-badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .badge-correct { background: var(--black); color: var(--white); }
+    .badge-wrong { background: var(--gray-300); color: var(--black); }
+
+    .explanation-text { font-size: 0.95rem; color: var(--gray-700); line-height: 1.7; }
+
+    .explanation-actions { display: flex; justify-content: flex-end; margin-top: 1.25rem; }
+
+    /* ── RESULTS SCREEN ──────────────────────────────────── */
+    .results-hero {
+      text-align: center;
+      margin-bottom: 3rem;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .results-score {
+      font-family: var(--font-serif);
+      font-size: clamp(3.5rem, 12vw, 6rem);
+      line-height: 1;
+      margin-bottom: 0.75rem;
+    }
+
+    .results-subtitle { font-size: 1.1rem; color: var(--gray-600); }
+
+    .results-award {
+      width: 60px;
+      height: 60px;
+      background: var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      animation: spin 0.6s ease both;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(-180deg) scale(0); }
+      to   { transform: rotate(0deg) scale(1); }
+    }
+
+    .results-award svg { fill: none; stroke: white; stroke-width: 2; }
+
+    .results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2.5rem; }
+
+    @media (max-width: 600px) { .results-grid, .select-row { grid-template-columns: 1fr; } }
+
+    .results-card {
+      border: 1px solid var(--gray-200);
+      padding: 2rem;
+    }
+
+    .results-card-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      margin-bottom: 1.25rem;
+    }
+
+    .breakdown-item { margin-bottom: 1rem; }
+    .breakdown-row { display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 0.3rem; }
+    .breakdown-row span:last-child { font-family: var(--font-mono); }
+
+    .breakdown-bar { height: 2px; background: var(--gray-200); }
+    .breakdown-fill { height: 100%; background: var(--black); transition: width 0.6s ease; }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.875rem;
+      padding: 0.625rem 0;
+      border-bottom: 1px solid var(--gray-100);
+      font-family: var(--font-mono);
+    }
+
+    .results-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+
+    /* ── AI CHAT ─────────────────────────────────────────── */
+    .ai-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 60px);
+    }
+
+    .ai-header { margin-bottom: 1.5rem; }
+
+    .ai-header h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      font-style: italic;
+      margin-bottom: 0.5rem;
+    }
+
+    .ai-header p { font-size: 0.9rem; color: var(--gray-500); line-height: 1.6; }
+
+    .api-key-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .api-key-field { flex: 1; }
+    .api-key-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray-500); margin-bottom: 0.3rem; }
+
+    .api-key-input-wrap { position: relative; }
+
+    .api-key-input {
+      width: 100%;
+      padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+      border: 1px solid var(--gray-300);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      background: var(--white);
+    }
+
+    .api-key-input:focus { outline: 1px solid var(--black); }
+
+    .toggle-key-btn {
+      position: absolute;
+      right: 0.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--gray-400);
+      padding: 0.25rem;
+    }
+
+    .toggle-key-btn:hover { color: var(--black); }
+
+    .cors-note { font-size: 0.75rem; color: var(--gray-400); line-height: 1.5; max-width: 200px; }
+
+    .chat-placeholder {
+      flex: 1;
+      border: 1px dashed var(--gray-300);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 3rem;
+      color: var(--gray-400);
+    }
+
+    .chat-placeholder h3 { font-family: var(--font-serif); font-size: 1.5rem; color: var(--black); margin: 0.75rem 0 0.5rem; }
+    .chat-placeholder p { font-size: 0.875rem; }
+
+    .chat-window {
+      flex: 1;
+      border: 1px solid var(--gray-200);
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .chat-message { display: flex; gap: 0.75rem; animation: fadeUp 0.25s ease both; }
+    .chat-message.user { flex-direction: row-reverse; }
+
+    .chat-avatar {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .chat-avatar.ai { background: var(--black); color: var(--white); }
+    .chat-avatar.user { background: var(--gray-200); color: var(--black); }
+
+    .chat-bubble {
+      max-width: 80%;
+      font-size: 0.9rem;
+      line-height: 1.65;
+    }
+
+    .chat-bubble.user {
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      padding: 0.75rem 1rem;
+    }
+
+    .chat-bubble p { margin-bottom: 0.5rem; }
+    .chat-bubble p:last-child { margin-bottom: 0; }
+
+    /* Markdown rendering inside assistant bubbles */
+    .chat-bubble.assistant h1,
+    .chat-bubble.assistant h2,
+    .chat-bubble.assistant h3 {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 600;
+      margin: 0.9rem 0 0.4rem;
+      line-height: 1.3;
+    }
+    .chat-bubble.assistant h1 { font-size: 1.3rem; }
+    .chat-bubble.assistant h2 { font-size: 1.15rem; }
+    .chat-bubble.assistant h3 { font-size: 1.05rem; }
+    .chat-bubble.assistant ul,
+    .chat-bubble.assistant ol {
+      margin: 0.4rem 0 0.75rem 1.25rem;
+    }
+    .chat-bubble.assistant li { margin-bottom: 0.3rem; }
+    .chat-bubble.assistant strong { font-weight: 600; }
+    .chat-bubble.assistant em { font-style: italic; }
+    .chat-bubble.assistant code {
+      font-family: var(--font-mono);
+      font-size: 0.85em;
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      padding: 0.1em 0.35em;
+    }
+    .chat-bubble.assistant pre {
+      background: var(--black);
+      color: #e5e5e5;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      padding: 1rem;
+      overflow-x: auto;
+      margin: 0.5rem 0 0.9rem;
+      line-height: 1.6;
+    }
+    .chat-bubble.assistant pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      color: inherit;
+    }
+    .chat-bubble.assistant blockquote {
+      border-left: 2px solid var(--gray-300);
+      padding-left: 0.75rem;
+      color: var(--gray-600);
+      margin: 0.5rem 0;
+    }
+    .chat-bubble.assistant a { color: var(--black); text-decoration: underline; }
+    .chat-bubble.assistant hr { border: none; border-top: 1px solid var(--gray-200); margin: 0.75rem 0; }
+
+    .chat-typing { opacity: 0.5; font-style: italic; font-size: 0.85rem; }
+
+    .suggestions {
+      padding: 0.75rem 1rem 0;
+      border-top: 1px solid var(--gray-100);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .suggestion-btn {
+      font-size: 0.75rem;
+      padding: 0.3rem 0.75rem;
+      border: 1px solid var(--gray-200);
+      background: var(--white);
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: var(--font-sans);
+    }
+
+    .suggestion-btn:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+
+    .chat-input-row {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      border-top: 1px solid var(--gray-100);
+      background: var(--gray-50);
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid var(--gray-200);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      background: var(--white);
+    }
+
+    .chat-input:focus { outline: 1px solid var(--black); }
+
+    /* ── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 600px) {
+      nav { padding: 0 1rem; }
+      .nav-links { gap: 1rem; }
+      .hero-ctas { flex-direction: column; align-items: center; }
+      .quiz-container, .ai-container { padding: 1rem; }
+      .setup-card { padding: 1.5rem; }
+      .results-grid { grid-template-columns: 1fr; }
+      .cors-note { display: none; }
+    }
+
+    /* ── UTILITY ─────────────────────────────────────────── */
+    .hidden { display: none !important; }
+    .text-center { text-align: center; }
+    .mt-1 { margin-top: 0.5rem; }
+    .mt-2 { margin-top: 1rem; }
+    .mb-2 { margin-bottom: 1rem; }
+    .flex-center { display: flex; align-items: center; justify-content: center; }
+
+    /* Scrollbar */
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-track { background: transparent; }
+    .chat-messages::-webkit-scrollbar-thumb { background: var(--gray-300); }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVIGATION ─────────────────────────────────────────── -->
+<nav>
+  <span class="nav-logo" onclick="App.navigate('landing')">OOP Quiz</span>
+  <div class="nav-links">
+    <button class="nav-link active" id="nav-landing" onclick="App.navigate('landing')">Home</button>
+    <button class="nav-link" id="nav-quiz" onclick="App.navigate('quiz')">Quiz</button>
+    <button class="nav-link" id="nav-ai" onclick="App.navigate('ai')">AI Chat</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 1 — LANDING
+════════════════════════════════════════════════════════ -->
+<section id="section-landing" class="section active">
+
+  <!-- Hero -->
+  <div class="hero">
+    <p class="hero-eyebrow">Academic Implementation — SIWES Project</p>
+    <h1 class="hero-title">Object-Oriented<br><em>Exegesis.</em></h1>
+    <p class="hero-sub">
+      A rigorous exploration of Object-Oriented Programming principles,
+      built entirely upon the concepts it seeks to teach.
+      The architecture is the curriculum.
+    </p>
+    <div class="hero-ctas">
+      <button class="btn btn-primary" onclick="App.navigate('quiz')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Begin Assessment
+      </button>
+      <button class="btn btn-outline" onclick="App.navigate('ai')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        Interrogate the AI
+      </button>
+    </div>
+  </div>
+
+  <!-- Essay -->
+  <div class="essay">
+    <div class="essay-inner">
+      <h2>What is this?</h2>
+      <p>
+        Most educational applications store their content in databases and render it through procedural
+        UI components. They teach a subject, but their structure bears no relationship to the subject itself.
+      </p>
+      <p>
+        This application is different. It is an artifact designed to teach
+        <strong>Object-Oriented Programming (OOP)</strong> through an interactive quiz. However, the
+        true pedagogical value lies beneath the surface: the application itself is constructed using
+        rigorous OOP principles.
+      </p>
+      <p>
+        The questions you answer are instances of an encapsulated <code>Question</code> class. The
+        quiz flow is orchestrated by an <code>EventEmitter</code>-derived <code>QuizEngine</code>.
+        Timer mechanics are an expression of polymorphism via <code>TimedQuizEngine</code>. The AI
+        chat is powered by an encapsulated <code>MistralClient</code>. To study the codebase is to
+        study the curriculum.
+      </p>
+      <p>
+        This app was built as a SIWES supervisor assignment demonstrating all four pillars of OOP —
+        <strong>Encapsulation</strong>, <strong>Abstraction</strong>, <strong>Inheritance</strong>,
+        and <strong>Polymorphism</strong> — plus the <strong>Singleton</strong> and
+        <strong>Observer</strong> design patterns.
+      </p>
+    </div>
+  </div>
+
+  <!-- Architecture Cards -->
+  <div class="arch-section">
+    <h2>The Architecture</h2>
+    <p class="subtitle">A mapping of class implementations to their demonstrated OOP pillars.</p>
+    <div class="arch-grid">
+      <div class="arch-card">
+        <div class="arch-card-header">
+          <div class="arch-icon">EE</div>
+          <h3>EventEmitter</h3>
+        </div>
+        <p class="arch-pillar">Abstraction</p>
+        <p>An <strong>abstract base class</strong> providing a common pub/sub mechanism.
+        Hides the internal <code>Map&lt;string, Set&lt;Function&gt;&gt;</code> behind a simple
+        interface: <code>on()</code>, <code>off()</code>, <code>emit()</code>, <code>once()</code>.
+        Cannot be instantiated directly — only extended.</p>
+      </div>
+      <div class="arch-card">
+        <div class="arch-card-header">
+          <div class="arch-icon">Q</div>
+          <h3>Question</h3>
+        </div>
+        <p class="arch-pillar">Encapsulation</p>
+        <p>Bundles question data and behavioral logic. The <code>correctIndex</code> and
+        <code>_userAnswer</code> properties are <strong>private</strong> — the outside world cannot
+        read or mutate them directly. Interaction is only through <code>checkAnswer()</code>,
+        enforcing controlled state mutation.</p>
+      </div>
+      <div class="arch-card">
+        <div class="arch-card-header">
+          <div class="arch-icon">QB</div>
+          <h3>QuestionBank</h3>
+        </div>
+        <p class="arch-pillar">Singleton + Abstraction</p>
+        <p>Guarantees a single global point of access via a private constructor and static
+        <code>getInstance()</code> method (<strong>Singleton pattern</strong>). Abstracts away data
+        initialization, Fisher-Yates shuffling, and category/difficulty filtering.</p>
+      </div>
+      <div class="arch-card">
+        <div class="arch-card-header">
+          <div class="arch-icon">QE</div>
+          <h3>QuizEngine</h3>
+        </div>
+        <p class="arch-pillar">Inheritance</p>
+        <p><strong>Extends EventEmitter</strong>, inheriting the full pub/sub system. Encapsulates
+        quiz state (score, current index) as protected properties so subclasses can access but
+        outside code cannot. Emits <code>'answer'</code>, <code>'next'</code>, and
+        <code>'complete'</code> events.</p>
+      </div>
+      <div class="arch-card">
+        <div class="arch-card-header">
+          <div class="arch-icon">TQE</div>
+          <h3>TimedQuizEngine</h3>
+        </div>
+        <p class="arch-pillar">Inheritance + Polymorphism</p>
+        <p>Inherits core mechanics from <code>QuizEngine</code>. Overrides
+        <code>submitAnswer()</code> and <code>next()</code> to inject timer logic — augmenting parent
+        behavior via <code>super</code> calls without breaking the interface. This is
+        <strong>runtime polymorphism</strong>.</p>
+      </div>
+      <div class="arch-card">
+        <div class="arch-card-header">
+          <div class="arch-icon">MC</div>
+          <h3>MistralClient</h3>
+        </div>
+        <p class="arch-pillar">Encapsulation</p>
+        <p>Hides the API key, endpoint URL, and HTTP request complexity behind a clean
+        <code>chat(messages)</code> method. The UI never constructs a fetch request directly —
+        it only calls this high-level interface, a textbook example of
+        <strong>information hiding</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Source Code Excerpts (for assignment writeup) -->
+  <div class="code-section">
+    <div class="code-section-inner">
+      <h2>Source Code Walkthrough</h2>
+      <p class="lead">The key classes as they appear in the codebase — annotated for the assignment.</p>
+
+      <p class="code-label">EventEmitter.js — Abstraction</p>
+      <div class="code-block"><span class="comment">/**
+ * Abstract base class. Cannot be instantiated directly.
+ * Demonstrates: ABSTRACTION — hides listener Map complexity.
+ */</span>
+<span class="kw">class</span> <span class="cls">EventEmitter</span> {
+  #listeners = <span class="kw">new</span> Map();   <span class="comment">// private field — hidden from subclasses</span>
+
+  on(event, cb)   { <span class="comment">/* subscribe */</span> }
+  off(event, cb)  { <span class="comment">/* unsubscribe */</span> }
+  emit(event, ..args) { <span class="comment">/* notify all subscribers */</span> }
+  once(event, cb) { <span class="comment">/* subscribe once, then auto-remove */</span> }
+}</div>
+
+      <p class="code-label">Question.js — Encapsulation</p>
+      <div class="code-block"><span class="comment">/**
+ * Demonstrates: ENCAPSULATION — correctIndex is private.
+ * State can only change through checkAnswer().
+ */</span>
+<span class="kw">class</span> <span class="cls">Question</span> {
+  #correctIndex;   <span class="comment">// ← PRIVATE: unreadable from outside</span>
+  #userAnswer = null;
+
+  constructor(id, text, options, correctIndex, explanation, category, difficulty) {
+    this.id = id; this.text = text; this.options = options;
+    this.#correctIndex = correctIndex;  <span class="comment">// stored privately</span>
+    this.explanation = explanation;
+    this.category = category; this.difficulty = difficulty;
+  }
+
+  checkAnswer(index) {             <span class="comment">// ← only way to "submit" an answer</span>
+    this.#userAnswer = index;
+    return index === this.#correctIndex;
+  }
+
+  get isAnswered() { return this.#userAnswer !== null; }
+  get isCorrect()  { return this.#userAnswer === this.#correctIndex; }
+  reset()          { this.#userAnswer = null; }
+}</div>
+
+      <p class="code-label">QuizEngine.js — Inheritance (extends EventEmitter)</p>
+      <div class="code-block"><span class="comment">/**
+ * Demonstrates: INHERITANCE — extends EventEmitter.
+ * Gets on/off/emit for free. Protects state from outside.
+ */</span>
+<span class="kw">class</span> <span class="cls">QuizEngine</span> <span class="kw">extends</span> <span class="cls">EventEmitter</span> {
+  _questions; _currentIndex = 0; _score = 0;   <span class="comment">// protected</span>
+
+  constructor(questions) {
+    super();   <span class="comment">// ← must call parent constructor</span>
+    this._questions = questions;
+  }
+
+  submitAnswer(index) {
+    const correct = this._questions[this._currentIndex].checkAnswer(index);
+    if (correct) this._score++;
+    this.emit(<span class="str">'answer'</span>, { correct });  <span class="comment">// inherited from EventEmitter</span>
+    return correct;
+  }
+}</div>
+
+      <p class="code-label">TimedQuizEngine.js — Polymorphism (override)</p>
+      <div class="code-block"><span class="comment">/**
+ * Demonstrates: POLYMORPHISM — overrides submitAnswer() and next().
+ * Same method name, different behavior. Calls super to preserve parent logic.
+ */</span>
+<span class="kw">class</span> <span class="cls">TimedQuizEngine</span> <span class="kw">extends</span> <span class="cls">QuizEngine</span> {
+  #timer = null;
+  #timeRemaining;
+
+  constructor(questions, timeMs = 30000) {
+    super(questions);   <span class="comment">// inherit everything from QuizEngine</span>
+    this.#timeRemaining = timeMs;
+  }
+
+  submitAnswer(index) {   <span class="comment">// ← OVERRIDE (Polymorphism)</span>
+    this.#stopTimer();
+    return super.submitAnswer(index);   <span class="comment">// call parent version</span>
+  }
+
+  next() {   <span class="comment">// ← OVERRIDE (Polymorphism)</span>
+    super.next();   <span class="comment">// advance index in parent</span>
+    this.#timeRemaining = this.timePerQuestion;
+    if (!this.isComplete) this.#startTimer();
+  }
+}</div>
+
+    </div>
+  </div>
+
+  <footer>
+    <p>Built with intention. No colors required. &mdash; OOP Teaching Quiz, SIWES 2024</p>
+  </footer>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 2 — QUIZ
+════════════════════════════════════════════════════════ -->
+<section id="section-quiz" class="section">
+  <div class="quiz-container">
+    <!-- Setup screen -->
+    <div id="quiz-setup">
+      <h1 class="quiz-setup" style="font-family:var(--font-serif);font-size:clamp(2rem,5vw,3rem);font-style:italic;text-align:center;margin-bottom:2.5rem;">Configure Assessment</h1>
+      <div class="setup-card">
+        <div class="setup-field">
+          <span class="setup-label">Subject Matter</span>
+          <div class="chip-group" id="category-chips"></div>
+        </div>
+        <div class="select-row">
+          <div class="setup-field" style="margin:0">
+            <span class="setup-label">Difficulty</span>
+            <select class="styled-select" id="difficulty-select">
+              <option value="all">Mixed (All Levels)</option>
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </div>
+          <div class="setup-field" style="margin:0">
+            <span class="setup-label">Question Count</span>
+            <select class="styled-select" id="count-select">
+              <option value="10">10 questions</option>
+              <option value="15">15 questions</option>
+              <option value="20">20 questions</option>
+              <option value="0">All questions</option>
+            </select>
+          </div>
+        </div>
+        <hr class="setup-divider" />
+        <button class="btn btn-primary" style="width:100%;justify-content:center;padding:1rem;" onclick="QuizController.start()">
+          Initialize QuizEngine
+        </button>
+      </div>
+    </div>
+
+    <!-- Active quiz -->
+    <div id="quiz-active" class="hidden">
+      <div class="quiz-header">
+        <div>
+          <p class="quiz-meta-label" id="q-category-label"></p>
+          <p class="quiz-meta-value" id="q-counter"></p>
+        </div>
+        <button class="btn btn-ghost" onclick="QuizController.quit()">Abort</button>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+      <div id="timer-area" class="hidden" style="display:flex;justify-content:flex-end;margin-bottom:1.25rem;">
+        <div class="timer-badge" id="timer-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span id="timer-text">20s</span>
+        </div>
+      </div>
+      <div id="question-area">
+        <p class="question-text" id="q-text"></p>
+        <div class="options-grid" id="q-options"></div>
+        <div id="explanation-area" class="hidden">
+          <div class="explanation-box">
+            <span class="explanation-badge" id="result-badge"></span>
+            <p class="explanation-text" id="explanation-text"></p>
+            <div class="explanation-actions">
+              <button class="btn btn-primary" onclick="QuizController.next()">
+                Continue
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results screen -->
+    <div id="quiz-results" class="hidden">
+      <div class="results-hero">
+        <div id="award-icon" class="results-award hidden">
+          <svg width="28" height="28" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7" stroke="white" fill="none" stroke-width="2"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" stroke="white" fill="none" stroke-width="2"/></svg>
+        </div>
+        <p class="results-score" id="results-score"></p>
+        <p class="results-subtitle" id="results-subtitle"></p>
+      </div>
+      <div class="results-grid">
+        <div class="results-card">
+          <p class="results-card-label">Performance Matrix</p>
+          <div id="breakdown-list"></div>
+        </div>
+        <div class="results-card" style="background:var(--gray-50)">
+          <p class="results-card-label">Instance Data</p>
+          <div id="meta-list"></div>
+        </div>
+      </div>
+      <div class="results-actions">
+        <button class="btn btn-primary" onclick="QuizController.restart()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.36"/></svg>
+          Reinitialize
+        </button>
+        <button class="btn btn-outline" onclick="QuizController.quit()">New Configuration</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 3 — AI CHAT
+════════════════════════════════════════════════════════ -->
+<section id="section-ai" class="section">
+  <div class="ai-container">
+    <div class="ai-header">
+      <h1>Architectural Dialogue</h1>
+      <p>Interrogate the OOP design of this application. The AI is primed with the exact class structures and patterns used in this codebase.</p>
+    </div>
+
+    <div class="api-key-row">
+      <div class="api-key-field">
+        <p class="api-key-label">Mistral API Key</p>
+        <div class="api-key-input-wrap">
+          <input type="password" class="api-key-input" id="api-key-input" placeholder="Enter your Mistral API key..." oninput="AIChat.updateKey(this.value)" />
+          <button class="toggle-key-btn" onclick="AIChat.toggleKeyVisibility()">
+            <svg id="key-eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </div>
+      <p class="cors-note">CORS Note: Mistral supports direct browser requests. Your key is visible in DevTools — rotate it after demos.</p>
+    </div>
+
+    <div id="chat-placeholder" class="chat-placeholder">
+      <div>
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <h3>Awaiting Authentication</h3>
+        <p>Provide a Mistral API key above to begin the architectural dialogue.</p>
+      </div>
+    </div>
+
+    <div id="chat-window" class="chat-window hidden">
+      <div class="chat-messages" id="chat-messages"></div>
+      <div class="suggestions" id="suggestion-area">
+        <button class="suggestion-btn" onclick="AIChat.sendSuggestion(this)">How does this app use inheritance?</button>
+        <button class="suggestion-btn" onclick="AIChat.sendSuggestion(this)">Explain the Singleton pattern here.</button>
+        <button class="suggestion-btn" onclick="AIChat.sendSuggestion(this)">What is encapsulated in the Question class?</button>
+        <button class="suggestion-btn" onclick="AIChat.sendSuggestion(this)">How does polymorphism work in TimedQuizEngine?</button>
+        <button class="suggestion-btn" onclick="AIChat.sendSuggestion(this)">What is the Observer pattern in EventEmitter?</button>
+        <button class="suggestion-btn" onclick="AIChat.sendSuggestion(this)">Why is MistralClient a good encapsulation example?</button>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" class="chat-input" id="chat-input" placeholder="Ask about the architecture..." onkeydown="if(event.key==='Enter')AIChat.send()" />
+        <button class="btn btn-primary" onclick="AIChat.send()" style="padding:0.5rem 1rem;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     ALL JAVASCRIPT — OOP CLASSES
+════════════════════════════════════════════════════════ -->
+<script>
+'use strict';
+
+/* ═══════════════════════════════════════════════════
+   CLASS 1: EventEmitter — demonstrates ABSTRACTION
+   (abstract base class; hides listener Map complexity)
+════════════════════════════════════════════════════ */
+class EventEmitter {
+  /** @private Internal listener registry — hidden from consumers */
+  #listeners = new Map();
+
+  on(event, cb) {
+    if (!this.#listeners.has(event)) this.#listeners.set(event, new Set());
+    this.#listeners.get(event).add(cb);
+    return this;
+  }
+
+  off(event, cb) {
+    const s = this.#listeners.get(event);
+    if (s) { s.delete(cb); if (s.size === 0) this.#listeners.delete(event); }
+    return this;
+  }
+
+  emit(event, ...args) {
+    const s = this.#listeners.get(event);
+    if (s) s.forEach(cb => cb(...args));
+  }
+
+  once(event, cb) {
+    const wrapper = (...args) => { this.off(event, wrapper); cb(...args); };
+    return this.on(event, wrapper);
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════
+   CLASS 2: Question — demonstrates ENCAPSULATION
+════════════════════════════════════════════════════ */
+class Question {
+  #correctIndex;
+  #userAnswer = null;
+
+  constructor(id, text, options, correctIndex, explanation, category, difficulty) {
+    this.id          = id;
+    this.text        = text;
+    this.options     = Object.freeze([...options]);
+    this.#correctIndex = correctIndex;
+    this.explanation = explanation;
+    this.category    = category;
+    this.difficulty  = difficulty;
+  }
+
+  checkAnswer(index) {
+    this.#userAnswer = index;
+    return index === this.#correctIndex;
+  }
+
+  get isAnswered() { return this.#userAnswer !== null; }
+  get userAnswer() { return this.#userAnswer; }
+
+  get isCorrect() {
+    if (this.#userAnswer === null) return null;
+    return this.#userAnswer === this.#correctIndex;
+  }
+
+  get revealedCorrectIndex() {
+    return this.#userAnswer !== null ? this.#correctIndex : -1;
+  }
+
+  reset() { this.#userAnswer = null; }
+}
+
+
+/* ═══════════════════════════════════════════════════
+   CLASS 3: QuestionBank — demonstrates SINGLETON + ABSTRACTION
+════════════════════════════════════════════════════ */
+class QuestionBank {
+  static #instance = null;
+  #questions = [];
+
+  constructor() {
+    this.#questions = QUESTION_DATA.map(d =>
+      new Question(d.id, d.text, d.options, d.correctIndex, d.explanation, d.category, d.difficulty)
+    );
+  }
+
+  static getInstance() {
+    if (!QuestionBank.#instance) QuestionBank.#instance = new QuestionBank();
+    return QuestionBank.#instance;
+  }
+
+  getAll() {
+    return this.#questions.map(q => { q.reset(); return q; });
+  }
+
+  getByCategory(category) {
+    return this.getAll().filter(q => q.category === category);
+  }
+
+  getByDifficulty(difficulty) {
+    return this.getAll().filter(q => q.difficulty === difficulty);
+  }
+
+  shuffle(questions = this.getAll()) {
+    const a = [...questions];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  sample(n, category, difficulty) {
+    let pool = this.getAll();
+    if (category && category !== 'all') pool = pool.filter(q => q.category === category);
+    if (difficulty && difficulty !== 'all') pool = pool.filter(q => q.difficulty === difficulty);
+    pool = this.shuffle(pool);
+    return n > 0 ? pool.slice(0, n) : pool;
+  }
+
+  get categories() {
+    return [...new Set(this.#questions.map(q => q.category))];
+  }
+
+  get totalCount() { return this.#questions.length; }
+}
+
+
+/* ═══════════════════════════════════════════════════
+   CLASS 4: QuizEngine — demonstrates INHERITANCE
+════════════════════════════════════════════════════ */
+class QuizEngine extends EventEmitter {
+  _questions;
+  _currentIndex = 0;
+  _score = 0;
+  _startTime = Date.now();
+
+  constructor(questions) {
+    super();
+    this._questions = questions.map(q => { q.reset(); return q; });
+  }
+
+  get currentQuestion() { return this._questions[this._currentIndex]; }
+  get progress() { return this._currentIndex / this._questions.length; }
+  get isComplete() { return this._currentIndex >= this._questions.length; }
+  get score() { return this._score; }
+  get total() { return this._questions.length; }
+
+  submitAnswer(optionIndex) {
+    if (this.isComplete) throw new Error('Quiz already complete');
+    const q = this.currentQuestion;
+    const isCorrect = q.checkAnswer(optionIndex);
+    if (isCorrect) this._score++;
+    this.emit('answer', { question: q, isCorrect, optionIndex });
+    return { isCorrect, explanation: q.explanation };
+  }
+
+  next() {
+    if (this.isComplete) return;
+    this._currentIndex++;
+    if (this.isComplete) {
+      this.emit('complete', this.getResults());
+    } else {
+      this.emit('next', this.currentQuestion);
+    }
+  }
+
+  getResults() {
+    const breakdown = {};
+    this._questions.forEach(q => {
+      if (!breakdown[q.category]) breakdown[q.category] = { correct: 0, total: 0 };
+      breakdown[q.category].total++;
+      if (q.isCorrect) breakdown[q.category].correct++;
+    });
+    return {
+      score: this._score,
+      total: this._questions.length,
+      percentage: (this._score / this._questions.length) * 100,
+      timeTaken: Date.now() - this._startTime,
+      breakdown,
+      engineClass: this.constructor.name
+    };
+  }
+
+  restart() {
+    this._currentIndex = 0;
+    this._score = 0;
+    this._startTime = Date.now();
+    this._questions.forEach(q => q.reset());
+    this.emit('restart');
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════
+   CLASS 5: TimedQuizEngine — demonstrates INHERITANCE + POLYMORPHISM
+════════════════════════════════════════════════════ */
+class TimedQuizEngine extends QuizEngine {
+  #timePerQuestion;
+  #timeRemaining;
+  #timer = null;
+
+  constructor(questions, timePerQuestionMs = 20000) {
+    super(questions);
+    this.#timePerQuestion = timePerQuestionMs;
+    this.#timeRemaining = timePerQuestionMs;
+  }
+
+  get timeRemaining() { return this.#timeRemaining; }
+
+  submitAnswer(optionIndex) {
+    this.#stopTimer();
+    return super.submitAnswer(optionIndex);
+  }
+
+  next() {
+    super.next();
+    this.#timeRemaining = this.#timePerQuestion;
+    if (!this.isComplete) this.#startTimer();
+  }
+
+  startTimer() { this.#startTimer(); }
+
+  #startTimer() {
+    this.#stopTimer();
+    this.#timer = setInterval(() => {
+      this.#timeRemaining -= 1000;
+      this.emit('tick', this.#timeRemaining);
+      if (this.#timeRemaining <= 0) {
+        this.submitAnswer(-1);
+      }
+    }, 1000);
+  }
+
+  #stopTimer() {
+    if (this.#timer) { clearInterval(this.#timer); this.#timer = null; }
+  }
+
+  restart() {
+    super.restart();
+    this.#stopTimer();
+    this.#timeRemaining = this.#timePerQuestion;
+  }
+
+  destroy() {
+    this.#stopTimer();
+    this.emit('destroy');
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════
+   CLASS 6: MistralClient — demonstrates ENCAPSULATION
+════════════════════════════════════════════════════ */
+class MistralClient {
+  #apiKey;
+  #baseUrl = 'https://api.mistral.ai/v1';
+
+  constructor(apiKey) { this.#apiKey = apiKey; }
+  updateApiKey(key) { this.#apiKey = key; }
+
+  async chat(messages, model = 'mistral-small-latest') {
+    if (!this.#apiKey) throw new Error('Mistral API key is required.');
+    const res = await fetch(`${this.#baseUrl}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.#apiKey}`
+      },
+      body: JSON.stringify({ model, messages, max_tokens: 1024 })
+    });
+    if (!res.ok) throw new Error(`Mistral error: ${res.status} ${res.statusText}`);
+    const data = await res.json();
+    return data.choices[0].message.content;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════
+   CLASS 7: Router — demonstrates INHERITANCE
+════════════════════════════════════════════════════ */
+class Router extends EventEmitter {
+  #current = 'landing';
+
+  navigate(section) {
+    this.#current = section;
+    this.emit('navigate', section);
+  }
+
+  get current() { return this.#current; }
+}
+
+
+/* ═══════════════════════════════════════════════════
+   QUESTION DATA — 80 questions across 6 OOP categories
+════════════════════════════════════════════════════ */
+const QUESTION_DATA = [
+
+  // ── CLASSES & OBJECTS (13) ──────────────────────────
+  { id:'co1', category:'Classes & Objects', difficulty:'beginner',
+    text:'In OOP, what is a class?',
+    options:['A function that returns objects','A blueprint or template for creating objects','A collection of functions','An instance of an object'],
+    correctIndex:1, explanation:'A class defines the structure and behavior that objects of that type will have. Think of it like a cookie cutter: the class is the cutter, and objects are the cookies.' },
+
+  { id:'co2', category:'Classes & Objects', difficulty:'beginner',
+    text:'What is an object in relation to a class?',
+    options:['A synonym for a class','The blueprint itself','An instance of a class','A function within the class'],
+    correctIndex:2, explanation:'An object is a specific, concrete instance created from the class blueprint. In this app, each quiz question is a Question object instantiated from the Question class.' },
+
+  { id:'co3', category:'Classes & Objects', difficulty:'intermediate',
+    text:'What is the purpose of a constructor?',
+    options:['To destroy an object when it\'s no longer needed','To copy an object','To initialize an object\'s properties when it is created','To return the class definition'],
+    correctIndex:2, explanation:'A constructor is a special method called automatically when an object is instantiated. In MistralClient, the constructor takes and stores the apiKey.' },
+
+  { id:'co4', category:'Classes & Objects', difficulty:'beginner',
+    text:'Which keyword is used to create a new instance of a class?',
+    options:['create','new','instance','make'],
+    correctIndex:1, explanation:'The "new" keyword allocates memory and calls the constructor, e.g., new QuizEngine(questions).' },
+
+  { id:'co5', category:'Classes & Objects', difficulty:'intermediate',
+    text:"What is the 'this' keyword used for inside a class method?",
+    options:['To reference the global scope','To reference the parent class','To reference the current instance of the class','To reference the method itself'],
+    correctIndex:2, explanation:"Inside a class, 'this' refers to the specific object instance on which the method is called, allowing access to its own properties and methods." },
+
+  { id:'co6', category:'Classes & Objects', difficulty:'advanced',
+    text:'What are static properties or methods?',
+    options:['Properties that cannot be changed once set','Methods that do not take arguments','Members that belong to the class itself, not any instance','Properties accessible only within the same file'],
+    correctIndex:2, explanation:'Static members belong to the class blueprint. QuestionBank.#instance is static — it tracks the single global instance across the entire app.' },
+
+  { id:'co7', category:'Classes & Objects', difficulty:'intermediate',
+    text:'What is the relationship between state and behavior in an object?',
+    options:['State is data (properties); behavior is actions (methods)','State is constant; behavior is variable','Behavior is stored in the database; state is in memory','They are two terms for the same concept'],
+    correctIndex:0, explanation:'Objects encapsulate state (like a Question\'s #userAnswer) and behavior (like checkAnswer()) together in one entity, keeping related things grouped.' },
+
+  { id:'co8', category:'Classes & Objects', difficulty:'beginner',
+    text:'In this app, which of the following is an object?',
+    options:['The "class Question" definition in the code','The JavaScript file itself','A running QuizEngine instance holding your current score','An import statement'],
+    correctIndex:2, explanation:'The class is the blueprint. The running instance in memory, holding your live score and progress, is the object.' },
+
+  { id:'co9', category:'Classes & Objects', difficulty:'advanced',
+    text:'Can a class be passed as an argument to a function in JavaScript?',
+    options:['No, only instances can be passed','Yes, because classes are first-class citizens in JavaScript','Only abstract classes','No, classes are compiled away at runtime'],
+    correctIndex:1, explanation:'In JavaScript, classes are syntactic sugar over constructor functions. They can be passed, returned from functions, and stored in variables.' },
+
+  { id:'co10', category:'Classes & Objects', difficulty:'beginner',
+    text:"If a class is a noun, what are its methods typically named as?",
+    options:['Adjectives','Verbs','Pronouns','Conjunctions'],
+    correctIndex:1, explanation:'If a class is a noun (Engine), its methods are verbs representing actions (start(), stop(), submit()). This makes code read like natural language.' },
+
+  { id:'co11', category:'Classes & Objects', difficulty:'intermediate',
+    text:'What is the difference between a class and an object?',
+    options:['They are identical','A class exists in memory; an object is in code','A class is the definition; an object is a runtime instance of that definition','An object can only exist if a class is exported'],
+    correctIndex:2, explanation:'The class is code. The object is what gets created when you execute "new ClassName()". Many objects can be created from one class.' },
+
+  { id:'co12', category:'Classes & Objects', difficulty:'advanced',
+    text:'What is meant by "instantiation" in OOP?',
+    options:['Compiling a class to bytecode','Creating a concrete object from a class blueprint','Inheriting methods from a parent','Calling a static method'],
+    correctIndex:1, explanation:'Instantiation is the process of creating a new object using new. Each Question object in the quiz bank was instantiated from the Question class.' },
+
+  { id:'co13', category:'Classes & Objects', difficulty:'intermediate',
+    text:'What keyword in JavaScript defines a private class field?',
+    options:['private','_prefix','#prefix','protected'],
+    correctIndex:2, explanation:'ES2022 added # as the syntax for truly private fields in JavaScript classes. This app uses #correctIndex and #userAnswer in Question for genuine privacy.' },
+
+  // ── ENCAPSULATION (12) ────────────────────────────────
+  { id:'en1', category:'Encapsulation', difficulty:'beginner',
+    text:'What does encapsulation mean in OOP?',
+    options:['Hiding data and implementation details behind a public interface','Making all properties public','Wrapping code in a try-catch block','Creating multiple classes from one parent'],
+    correctIndex:0, explanation:'Encapsulation bundles related data and methods, restricting direct access. In this app, Question hides correctIndex as private — you must call checkAnswer() to submit an answer.' },
+
+  { id:'en2', category:'Encapsulation', difficulty:'intermediate',
+    text:'Which JavaScript syntax creates a truly private field in a class?',
+    options:['using the "private" keyword','prefixing with _','prefixing with #','using Object.freeze()'],
+    correctIndex:2, explanation:'The # prefix is JavaScript\'s native private field syntax. Unlike _underscores (just a convention), #fields cannot be accessed outside the class at all.' },
+
+  { id:'en3', category:'Encapsulation', difficulty:'intermediate',
+    text:'What is the primary benefit of encapsulation?',
+    options:['It makes code run faster','It prevents unintended interference with internal state','It reduces compiled file size','It allows multiple inheritance'],
+    correctIndex:1, explanation:'By hiding internal state (like QuizEngine\'s _score), you prevent other parts of the code from accidentally modifying it in an invalid way.' },
+
+  { id:'en4', category:'Encapsulation', difficulty:'beginner',
+    text:"What are 'getters' and 'setters' used for?",
+    options:['Fetching data from an API','Controlling read/write access to private properties','Inheriting properties from a parent class','Exporting functions from a module'],
+    correctIndex:1, explanation:'Getters/setters provide a public interface to read or safely modify private state. Question.isAnswered is a getter that computes a boolean from the private #userAnswer.' },
+
+  { id:'en5', category:'Encapsulation', difficulty:'advanced',
+    text:'How does the MistralClient class demonstrate encapsulation?',
+    options:['It inherits from EventEmitter','It exposes the raw fetch API to the UI','It hides the API key and HTTP logic, exposing only a simple chat() method','It uses a static constructor'],
+    correctIndex:2, explanation:'MistralClient keeps the API URL, headers, and fetch logic private. The UI just calls client.chat(messages) without knowing how the HTTP request is formed.' },
+
+  { id:'en6', category:'Encapsulation', difficulty:'intermediate',
+    text:"What is a 'protected' visibility modifier (as in Java/TypeScript)?",
+    options:['Accessible anywhere but unchangeable','Accessible within the class and its subclasses only','Encrypts the property in memory','Allows read but prevents write'],
+    correctIndex:1, explanation:'Protected is between public and private. QuizEngine uses _score with a convention of protected access so TimedQuizEngine can read it, but UI code should not.' },
+
+  { id:'en7', category:'Encapsulation', difficulty:'beginner',
+    text:"If a field is truly private (#field), what happens if external code tries to access it?",
+    options:['It returns undefined','It throws a SyntaxError at parse time','It works fine if you know the field name','It returns null'],
+    correctIndex:1, explanation:'Accessing a private #field from outside the class is a SyntaxError caught at parse/compile time, not just a runtime error. This is strict enforcement.' },
+
+  { id:'en8', category:'Encapsulation', difficulty:'advanced',
+    text:"Why is QuizEngine's score not publicly settable?",
+    options:['To save memory space','To prevent UI code from artificially inflating the score directly','Because public properties are deprecated','Because it must be inherited'],
+    correctIndex:1, explanation:'If score were public, any code could do engine.score = 100. By using a protected field, the only way to increment score is through the legitimate submitAnswer() flow.' },
+
+  { id:'en9', category:'Encapsulation', difficulty:'intermediate',
+    text:'What is an accessor method?',
+    options:['A method that opens a database connection','Another name for a getter or setter','A static utility method','A method inherited from an interface'],
+    correctIndex:1, explanation:'Accessor methods (getters/setters) allow you to run logic when a property is read or written, maintaining the encapsulation of the underlying data.' },
+
+  { id:'en10', category:'Encapsulation', difficulty:'beginner',
+    text:"What does Object.freeze() do in JavaScript?",
+    options:['Prevents a variable from being reassigned','Makes an object\'s properties immutable (cannot be added, removed, or changed)','Pauses the execution of the object','Creates a copy of the object'],
+    correctIndex:1, explanation:'Object.freeze() prevents mutation. This app uses it on question options arrays so they cannot be accidentally modified after creation.' },
+
+  { id:'en11', category:'Encapsulation', difficulty:'advanced',
+    text:'What is the "Law of Demeter" (Principle of Least Knowledge)?',
+    options:['A law that limits inheritance depth to 3 levels','An object should only talk to its immediate friends, not reach into their internals','All methods must be public','Private fields must be documented'],
+    correctIndex:1, explanation:'You should call methods on your direct collaborators, not chain through internals (e.g., don\'t do engine.questions[0].#correctIndex). Encapsulation enforces this naturally.' },
+
+  { id:'en12', category:'Encapsulation', difficulty:'intermediate',
+    text:'In this app, why does Question.reset() exist?',
+    options:['To delete the question from the bank','To allow question reuse across quiz sessions by clearing private state','To reset the QuizEngine score','To shuffle the options'],
+    correctIndex:1, explanation:'Since #userAnswer is private, you cannot clear it from outside. reset() is the controlled interface for that mutation, allowing safe reuse of Question objects.' },
+
+  // ── ABSTRACTION (11) ────────────────────────────────────
+  { id:'ab1', category:'Abstraction', difficulty:'beginner',
+    text:'What is an abstract class?',
+    options:['A class with no methods','A class that can be instantiated directly','A class that cannot be instantiated directly and serves as a template','A class with only static methods'],
+    correctIndex:2, explanation:'Abstract classes are partial templates. In this app, EventEmitter is abstract — you never create a raw EventEmitter, but QuizEngine and Router both extend it.' },
+
+  { id:'ab2', category:'Abstraction', difficulty:'intermediate',
+    text:'What is the primary goal of abstraction?',
+    options:['To hide complex implementation details and expose only essential features','To secure data from unauthorized access','To allow classes to share logic','To run multiple methods simultaneously'],
+    correctIndex:0, explanation:'Abstraction hides complexity behind a simpler interface. You use a TV remote (abstraction) rather than wiring the display circuitry directly.' },
+
+  { id:'ab3', category:'Abstraction', difficulty:'advanced',
+    text:'How does EventEmitter demonstrate abstraction in this codebase?',
+    options:['It prevents other classes from using its methods','It requires a private API key','It hides the Map<string, Set<Function>> logic behind simple on/off/emit methods','It inherits from a parent abstract class'],
+    correctIndex:2, explanation:'Subclasses like QuizEngine never touch the listener Map. They just call this.emit(\'answer\'). All complexity is abstracted away behind three method names.' },
+
+  { id:'ab4', category:'Abstraction', difficulty:'intermediate',
+    text:'What is an interface in TypeScript/Java?',
+    options:['A graphical user element','A purely abstract contract defining what properties and methods an object must have','A class providing default method implementations','A built-in data type for strings'],
+    correctIndex:1, explanation:'An interface defines a shape — it dictates WHAT a class must do, not HOW. This is pure abstraction.' },
+
+  { id:'ab5', category:'Abstraction', difficulty:'beginner',
+    text:"If Encapsulation is about 'data hiding', Abstraction is about...",
+    options:['Implementation hiding','Data duplication','Loop iteration','Class inheritance'],
+    correctIndex:0, explanation:'Abstraction hides the complex implementation steps behind a simpler, high-level interface. You know what it does, not how.' },
+
+  { id:'ab6', category:'Abstraction', difficulty:'advanced',
+    text:'Can an abstract class contain fully implemented (concrete) methods?',
+    options:['No, all methods must be abstract','Yes, it can mix abstract and concrete methods','Only static methods','Only if it has no constructor'],
+    correctIndex:1, explanation:'Abstract classes can provide useful base behavior while leaving some methods for subclasses to implement. EventEmitter provides all four methods fully implemented.' },
+
+  { id:'ab7', category:'Abstraction', difficulty:'intermediate',
+    text:'How does QuestionBank abstract the data layer?',
+    options:['It directly modifies the DOM','It hides the raw data array and provides clean methods like getByCategory() and shuffle()','It exposes the raw array directly to UI code','It connects to a SQL database'],
+    correctIndex:1, explanation:'The UI code never sees the raw QUESTION_DATA array. QuestionBank provides a clean abstraction: sample(), shuffle(), getByCategory().' },
+
+  { id:'ab8', category:'Abstraction', difficulty:'beginner',
+    text:'Which is a real-world example of abstraction?',
+    options:['A car engine\'s internal combustion cycle','A coffee machine where you just press "Brew"','A manual detailing every gear in a watch','A bank vault\'s lock mechanism'],
+    correctIndex:1, explanation:'Pressing "Brew" abstracts away water heating, grinding, and filtering. You interact only with the essential interface button.' },
+
+  { id:'ab9', category:'Abstraction', difficulty:'advanced',
+    text:'What is the main difference between an Interface and an Abstract Class?',
+    options:['Interfaces cannot have state or method implementations; abstract classes can','Abstract classes can be instantiated; interfaces cannot','Interfaces are only for functional programming','There is no difference'],
+    correctIndex:0, explanation:'Interfaces only define contracts. Abstract classes can provide base behavior (like EventEmitter\'s emit logic) while still being partially abstract.' },
+
+  { id:'ab10', category:'Abstraction', difficulty:'intermediate',
+    text:'What does "programming to an interface, not an implementation" mean?',
+    options:['Only ever use interfaces, never classes','Write code that depends on abstract types/contracts, not concrete implementations','Design UIs before writing code','Use TypeScript instead of JavaScript'],
+    correctIndex:1, explanation:'If code depends on a "QuizEngine" abstraction, you can swap QuizEngine for TimedQuizEngine without changing anything else. Abstraction enables this flexibility.' },
+
+  { id:'ab11', category:'Abstraction', difficulty:'beginner',
+    text:'Why is MistralClient.chat() a good abstraction?',
+    options:['It makes the code faster','Callers don\'t need to know about HTTP methods, headers, or the API URL — just messages in, response out','It prevents the AI from being wrong','It stores messages in a database'],
+    correctIndex:1, explanation:'The chat() method abstracts away the entire HTTP layer. The calling code only thinks in terms of "messages" — an appropriate level of abstraction for a chat feature.' },
+
+  // ── INHERITANCE (13) ────────────────────────────────────
+  { id:'in1', category:'Inheritance', difficulty:'beginner',
+    text:'What is Inheritance in OOP?',
+    options:['When a class copies code from another file','When a class takes on properties and methods from an existing parent class','When a function returns an object','When two classes share the same name'],
+    correctIndex:1, explanation:'Inheritance allows a child class to inherit features from a parent class, promoting code reuse. TimedQuizEngine inherits from QuizEngine, getting scoring and progress tracking for free.' },
+
+  { id:'in2', category:'Inheritance', difficulty:'beginner',
+    text:"Which keyword is used to call the parent class constructor?",
+    options:['parent()','super()','base()','extends()'],
+    correctIndex:1, explanation:'super() calls the parent constructor. In TimedQuizEngine, super(questions) passes the question array up to QuizEngine for initialization.' },
+
+  { id:'in3', category:'Inheritance', difficulty:'intermediate',
+    text:"What does the 'extends' keyword establish?",
+    options:['Increases array size','An inheritance relationship between child and parent class','Imports a module','Implements an interface'],
+    correctIndex:1, explanation:'"class TimedQuizEngine extends QuizEngine" establishes the inheritance relationship — TimedQuizEngine IS-A QuizEngine.' },
+
+  { id:'in4', category:'Inheritance', difficulty:'intermediate',
+    text:'If Class B inherits from Class A, Class B is the...',
+    options:['Superclass / Base class','Subclass / Derived class','Abstract class','Interface'],
+    correctIndex:1, explanation:'Class A is the superclass (parent), Class B is the subclass (child). The child inherits from the parent.' },
+
+  { id:'in5', category:'Inheritance', difficulty:'advanced',
+    text:'Does JavaScript/TypeScript support multiple class inheritance (e.g., class C extends A, B)?',
+    options:['Yes, natively','No, a class can only extend one parent class','Only for abstract classes','Yes, but only in strict mode'],
+    correctIndex:1, explanation:'JavaScript only supports single inheritance to avoid the Diamond Problem. You can, however, implement multiple interfaces in TypeScript.' },
+
+  { id:'in6', category:'Inheritance', difficulty:'beginner',
+    text:'Why is inheritance useful?',
+    options:['It makes code execute faster','It promotes code reuse and logical hierarchy','It prevents memory leaks','It hides data from users'],
+    correctIndex:1, explanation:'TimedQuizEngine inherited scoring, progress tracking, and results logic from QuizEngine — zero duplication needed.' },
+
+  { id:'in7', category:'Inheritance', difficulty:'intermediate',
+    text:"Can a subclass access 'private' (#) fields of its parent?",
+    options:['Yes, always','No, only public and protected members are inherited','Yes, via the super keyword','No, subclasses cannot access any parent members'],
+    correctIndex:1, explanation:'Private fields are strictly local to the class that defines them. Even subclasses cannot access them. Protected (by convention) is needed for shared access.' },
+
+  { id:'in8', category:'Inheritance', difficulty:'advanced',
+    text:'What happens if a subclass does not define its own constructor?',
+    options:['A runtime error occurs','The program fails to compile','It automatically uses the parent\'s constructor','The object cannot be instantiated'],
+    correctIndex:2, explanation:'If you omit the constructor in a subclass, the parent\'s constructor is automatically called with any provided arguments.' },
+
+  { id:'in9', category:'Inheritance', difficulty:'advanced',
+    text:"What is an 'is-a' relationship in OOP?",
+    options:['A design pattern for database relations','A description of Inheritance (TimedQuizEngine is-a QuizEngine)','A description of Composition (Car has-a Engine)','A JavaScript comparison operator'],
+    correctIndex:1, explanation:'Inheritance models "is-a" relationships. A TimedQuizEngine IS a QuizEngine, just with timer features added.' },
+
+  { id:'in10', category:'Inheritance', difficulty:'intermediate',
+    text:'Both QuizEngine and Router extend EventEmitter. What do they gain?',
+    options:['They become the same class','Both gain the full on/off/emit/once event system','They must be instantiated together','They inherit each other\'s properties'],
+    correctIndex:1, explanation:'Both inherit EventEmitter\'s full pub/sub system. This lets them broadcast state changes to any listener that calls .on() on them.' },
+
+  { id:'in11', category:'Inheritance', difficulty:'beginner',
+    text:"What does 'super' refer to when used as a method call (not constructor) inside a subclass?",
+    options:['The global window object','The parent class\'s version of the current method','The sibling class','The abstract base class'],
+    correctIndex:1, explanation:'super.submitAnswer() inside TimedQuizEngine calls QuizEngine\'s submitAnswer() — the parent\'s version. This allows augmentation, not total replacement.' },
+
+  { id:'in12', category:'Inheritance', difficulty:'advanced',
+    text:'What is "method chaining" in relation to inheritance?',
+    options:['Calling methods on the return value of other methods','Overriding parent methods','Copying methods from one class to another','A pattern requiring abstract base classes'],
+    correctIndex:0, explanation:'Returning "this" from methods enables chaining like emitter.on(\'a\', fn).on(\'b\', fn2). EventEmitter\'s on() and off() both return "this" to support this.' },
+
+  { id:'in13', category:'Inheritance', difficulty:'intermediate',
+    text:'What is the "Diamond Problem" and why does single inheritance avoid it?',
+    options:['A problem with circular imports','Ambiguity about which parent\'s method to use when two parents both inherit from a common ancestor','A memory leak pattern','A problem with static methods'],
+    correctIndex:1, explanation:'If C inherits from both A and B, and A and B both inherit from a common class X, which version of X\'s method does C use? Single inheritance avoids this ambiguity.' },
+
+  // ── POLYMORPHISM (12) ────────────────────────────────────
+  { id:'po1', category:'Polymorphism', difficulty:'beginner',
+    text:'What is Polymorphism in OOP?',
+    options:['A way to encrypt data','The ability of different objects to respond in their own way to the same method call','Hiding variables from subclasses','Creating multiple instances of a singleton'],
+    correctIndex:1, explanation:'Poly (many) morphism (forms). Different classes can implement the same method name with different behaviors.' },
+
+  { id:'po2', category:'Polymorphism', difficulty:'intermediate',
+    text:'What is method overriding?',
+    options:['Giving a method multiple parameter sets (overloading)','A subclass providing a different implementation of a method defined in its parent','Calling a method multiple times','Making a method private'],
+    correctIndex:1, explanation:'TimedQuizEngine overrides submitAnswer() to stop the timer before calling super.submitAnswer() — same method name, different behavior.' },
+
+  { id:'po3', category:'Polymorphism', difficulty:'advanced',
+    text:'What is the Liskov Substitution Principle?',
+    options:['Objects of a subclass should replace objects of the base class without breaking the program','All classes must inherit from a common ancestor','Abstract classes cannot have concrete methods','Interfaces must be small and focused'],
+    correctIndex:0, explanation:'If you expect a QuizEngine, passing a TimedQuizEngine should work perfectly, since TimedQuizEngine maintains the same method signatures and expected behavior.' },
+
+  { id:'po4', category:'Polymorphism', difficulty:'intermediate',
+    text:'When a subclass calls super.submitAnswer(), what happens?',
+    options:['It creates a new QuizEngine instance','It calls the parent class QuizEngine\'s version of submitAnswer()','It resets the quiz','It deletes the parent method'],
+    correctIndex:1, explanation:'super.method() explicitly invokes the parent\'s version. TimedQuizEngine uses it to preserve the core scoring logic while adding timer behavior.' },
+
+  { id:'po5', category:'Polymorphism', difficulty:'beginner',
+    text:'Can a parent class force subclasses to implement a specific method?',
+    options:['Yes, by marking the method as "abstract"','No, subclasses choose freely','Yes, by making it private','Yes, by using the "final" keyword'],
+    correctIndex:0, explanation:'Abstract methods are requirements in the blueprint. Any concrete subclass MUST provide an implementation — this is enforced at compile time in TypeScript/Java.' },
+
+  { id:'po6', category:'Polymorphism', difficulty:'advanced',
+    text:'What is the difference between overriding and overloading?',
+    options:['Overriding is changing behavior in a subclass; overloading is multiple methods with same name but different parameters','They are synonyms','Overloading is for interfaces only','Overriding is compile-time; overloading is runtime'],
+    correctIndex:0, explanation:'Overriding is runtime polymorphism across an inheritance chain. Overloading is compile-time polymorphism within the same class (not natively supported in JS).' },
+
+  { id:'po7', category:'Polymorphism', difficulty:'intermediate',
+    text:'If an array holds both QuizEngine and TimedQuizEngine instances, and you call .submitAnswer() on each, what happens?',
+    options:['Only the first one responds','An error is thrown because they are different types','Each calls its own version of submitAnswer() (polymorphism in action)','They all call QuizEngine\'s version'],
+    correctIndex:2, explanation:'This is polymorphism at runtime. JavaScript calls the most specific (overridden) implementation for each object, so TimedQuizEngine stops the timer; QuizEngine just scores.' },
+
+  { id:'po8', category:'Polymorphism', difficulty:'beginner',
+    text:"In the Animal/Dog/Cat example of OOP, if Animal has makeSound(), what demonstrates polymorphism?",
+    options:['Animal makes no sound','Dog implements makeSound() as "Bark" and Cat as "Meow" — same method, different behavior','Dog and Cat share the exact same sound file','Animal forces Dog to have a tail'],
+    correctIndex:1, explanation:'They share the interface (makeSound), but each provides its own specific form (implementation). That is polymorphism in its most classic expression.' },
+
+  { id:'po9', category:'Polymorphism', difficulty:'advanced',
+    text:'How does polymorphism help decouple code?',
+    options:['It prevents unauthorized data access','It hides database connection strings','Code accepts a base type (QuizEngine) and works with any subclass without knowing the specifics','It compiles code faster'],
+    correctIndex:2, explanation:'Because the UI accepts a QuizEngine reference, it works whether you pass a basic QuizEngine or a TimedQuizEngine, without if/else branching on the type.' },
+
+  { id:'po10', category:'Polymorphism', difficulty:'intermediate',
+    text:"What keyword in TypeScript explicitly signals that a method is overriding a parent's method?",
+    options:['replace','super','override','virtual'],
+    correctIndex:2, explanation:'The "override" keyword causes a compile error if the parent class does NOT have that method — a safety check that prevents typos creating phantom methods.' },
+
+  { id:'po11', category:'Polymorphism', difficulty:'advanced',
+    text:"What is 'runtime polymorphism' vs 'compile-time polymorphism'?",
+    options:['They are the same thing','Runtime = method overriding (decided at execution); Compile-time = method overloading (decided at compilation)','Runtime is faster','Compile-time is only in Java'],
+    correctIndex:1, explanation:'Overriding is resolved at runtime based on the actual object type. Overloading (where supported) is resolved at compile time based on argument types.' },
+
+  { id:'po12', category:'Polymorphism', difficulty:'beginner',
+    text:'What makes TimedQuizEngine.next() an example of polymorphism?',
+    options:['It creates a timer variable','It has the same name as QuizEngine.next() but adds timer-reset logic, changing the behavior for timed quiz instances','It calls setTimeout','It returns a different type than QuizEngine.next()'],
+    correctIndex:1, explanation:'Same method name (next()), inherited interface, but different behavior: TimedQuizEngine.next() resets the countdown after advancing. Polymorphism.' },
+
+  // ── DESIGN PATTERNS (12) ────────────────────────────────
+  { id:'dp1', category:'Design Patterns', difficulty:'beginner',
+    text:'What is a Design Pattern in software engineering?',
+    options:['A graphical UI layout','A reusable solution to a commonly occurring design problem','A specific sorting algorithm','A CSS color palette'],
+    correctIndex:1, explanation:'Patterns are established templates for solving structural problems, like managing state, controlling object creation, or broadcasting events.' },
+
+  { id:'dp2', category:'Design Patterns', difficulty:'intermediate',
+    text:'What is the Singleton pattern?',
+    options:['Ensures a class has only one globally accessible instance','Ensures every object is its own unique class','A pattern for SPAs','Prevents any inheritance'],
+    correctIndex:0, explanation:'QuestionBank uses Singleton via getInstance() — the entire app shares one bank instance, guaranteeing a consistent, single dataset.' },
+
+  { id:'dp3', category:'Design Patterns', difficulty:'intermediate',
+    text:'How does QuestionBank enforce the Singleton pattern?',
+    options:['By exporting a constant','By making the constructor private and providing a static getInstance() method','By throwing an error on the second new call','By using the "singleton" keyword'],
+    correctIndex:1, explanation:'A private constructor prevents external "new QuestionBank()" calls. getInstance() controls creation and caches the result.' },
+
+  { id:'dp4', category:'Design Patterns', difficulty:'advanced',
+    text:"EventEmitter implements the core of which design pattern?",
+    options:['Factory Pattern','Observer / Pub-Sub Pattern','Decorator Pattern','Strategy Pattern'],
+    correctIndex:1, explanation:'EventEmitter allows objects to subscribe (observe) and react to events published by a subject. This is the Observer pattern — a fundamental building block for event-driven systems.' },
+
+  { id:'dp5', category:'Design Patterns', difficulty:'advanced',
+    text:'What is the Factory Pattern?',
+    options:['A class that manufactures hardware','An interface for creating objects, letting subclasses decide which class to instantiate','A pattern that clones objects','A pattern for deleting objects efficiently'],
+    correctIndex:1, explanation:'Instead of "new ConcreteClass()", you call a factory method that decides the correct type to create based on conditions, decoupling creation from usage.' },
+
+  { id:'dp6', category:'Design Patterns', difficulty:'intermediate',
+    text:'Why might Singleton be considered an anti-pattern in some contexts?',
+    options:['It uses too much memory','It introduces hidden global state, making testing and dependency injection harder','It causes automatic memory leaks','It bypasses garbage collection'],
+    correctIndex:1, explanation:'Any file can call getInstance() invisibly. This creates hidden dependencies that are hard to mock in unit tests or replace with alternative implementations.' },
+
+  { id:'dp7', category:'Design Patterns', difficulty:'beginner',
+    text:'What category of design patterns does Singleton belong to?',
+    options:['Creational','Structural','Behavioral','Architectural'],
+    correctIndex:0, explanation:'Creational patterns deal with object creation. Structural deal with composition. Behavioral deal with communication between objects.' },
+
+  { id:'dp8', category:'Design Patterns', difficulty:'advanced',
+    text:'What pattern do you use if you want to wrap a class to provide a simpler interface?',
+    options:['Facade Pattern','Singleton Pattern','Observer Pattern','Iterator Pattern'],
+    correctIndex:0, explanation:'A Facade provides a simplified interface to a complex subsystem. MistralClient acts as a facade over the Fetch API and Mistral authentication complexity.' },
+
+  { id:'dp9', category:'Design Patterns', difficulty:'intermediate',
+    text:"What is the Strategy pattern?",
+    options:['A pattern that controls object creation','A pattern that defines a family of algorithms and makes them interchangeable','A pattern for observing state changes','A pattern ensuring only one instance exists'],
+    correctIndex:1, explanation:'Strategy lets you swap algorithms at runtime. You could imagine swapping between QuizEngine and TimedQuizEngine as different "quiz strategies" without changing the UI.' },
+
+  { id:'dp10', category:'Design Patterns', difficulty:'advanced',
+    text:'What is the Decorator pattern?',
+    options:['Adding CSS to HTML elements','Attaching additional responsibilities to an object dynamically, as an alternative to subclassing','Controlling object creation','Creating a single global instance'],
+    correctIndex:1, explanation:'Decorators wrap objects to add behavior at runtime. TimedQuizEngine actually shares some conceptual DNA with Decorator — it adds timer behavior to the base quiz engine behavior.' },
+
+  { id:'dp11', category:'Design Patterns', difficulty:'intermediate',
+    text:'What is the Command pattern?',
+    options:['Giving terminal instructions','Encapsulating a request as an object, allowing undo/redo, logging, or queuing of operations','A way to create objects','A way to traverse collections'],
+    correctIndex:1, explanation:'Command wraps actions as objects. This enables undo/redo features and action logging — common in editors and complex UIs.' },
+
+  { id:'dp12', category:'Design Patterns', difficulty:'beginner',
+    text:"What is 'composition over inheritance'?",
+    options:['Always use arrays instead of objects','Build complex behavior by combining simple objects rather than deep inheritance chains','Avoid all design patterns','Use only abstract classes'],
+    correctIndex:1, explanation:'Deeply nested inheritance chains become brittle. "Has-a" relationships (composition) are often more flexible than "is-a" (inheritance). Example: EventEmitter could also be used via composition.' },
+];
+
+
+/* ═══════════════════════════════════════════════════
+   APP CONTROLLER — wires everything together
+════════════════════════════════════════════════════ */
+const router = new Router();
+
+const App = {
+  navigate(section) {
+    router.navigate(section);
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById(`section-${section}`).classList.add('active');
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    const navEl = document.getElementById(`nav-${section}`);
+    if (navEl) navEl.classList.add('active');
+    window.scrollTo(0, 0);
+    if (section === 'quiz') QuizController.init();
+  }
+};
+
+router.on('navigate', (section) => {
+  console.log(`[Router] Navigated to: ${section}`);
+});
+
+
+/* ═══════════════════════════════════════════════════
+   QUIZ CONTROLLER
+════════════════════════════════════════════════════ */
+const QuizController = {
+  bank: null,
+  engine: null,
+  selectedCategory: 'all',
+
+  init() {
+    this.bank = QuestionBank.getInstance();
+    const chips = document.getElementById('category-chips');
+    chips.innerHTML = '';
+
+    const allChip = document.createElement('button');
+    allChip.className = 'chip selected';
+    allChip.textContent = 'All Topics';
+    allChip.dataset.cat = 'all';
+    allChip.onclick = () => this.selectCategory('all');
+    chips.appendChild(allChip);
+
+    this.bank.categories.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.className = 'chip';
+      btn.textContent = cat;
+      btn.dataset.cat = cat;
+      btn.onclick = () => this.selectCategory(cat);
+      chips.appendChild(btn);
+    });
+
+    this.showSetup();
+  },
+
+  selectCategory(cat) {
+    this.selectedCategory = cat;
+    document.querySelectorAll('#category-chips .chip').forEach(c => {
+      c.classList.toggle('selected', c.dataset.cat === cat);
+    });
+  },
+
+  start() {
+    const difficulty = document.getElementById('difficulty-select').value;
+    const count = parseInt(document.getElementById('count-select').value);
+    const questions = this.bank.sample(count, this.selectedCategory, difficulty);
+
+    if (questions.length === 0) {
+      alert('No questions match these filters. Try a different combination.');
+      return;
+    }
+
+    this.engine = new QuizEngine(questions);
+    this.engine.on('answer', () => this.renderQuestion());
+    this.engine.on('next', () => this.renderQuestion());
+    this.engine.on('complete', (results) => this.showResults(results));
+    this.engine.on('restart', () => this.renderQuestion());
+
+    this.showActive();
+    this.renderQuestion();
+  },
+
+  quit() {
+    if (this.engine instanceof TimedQuizEngine) this.engine.destroy();
+    this.engine = null;
+    this.showSetup();
+  },
+
+  next() {
+    this.engine.next();
+    if (!this.engine.isComplete) {
+      document.getElementById('explanation-area').classList.add('hidden');
+    }
+  },
+
+  restart() {
+    this.engine.restart();
+    this.showActive();
+    this.renderQuestion();
+  },
+
+  renderQuestion() {
+    if (this.engine.isComplete) return;
+    const q = this.engine.currentQuestion;
+    const idx = this.engine._currentIndex;
+    const total = this.engine._questions.length;
+
+    document.getElementById('q-category-label').textContent = `${q.category} — ${q.difficulty}`;
+    document.getElementById('q-counter').textContent = `Question ${idx + 1} of ${total}`;
+    document.getElementById('progress-fill').style.width = `${(idx / total) * 100}%`;
+
+    document.getElementById('q-text').textContent = q.text;
+
+    const optionsEl = document.getElementById('q-options');
+    optionsEl.innerHTML = '';
+    q.options.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerHTML = `<span>${opt}</span>`;
+      btn.style.animationDelay = `${i * 0.05}s`;
+
+      if (q.isAnswered) {
+        btn.disabled = true;
+        const correctIdx = q.revealedCorrectIndex;
+        if (i === correctIdx) {
+          btn.classList.add('correct');
+          btn.innerHTML += `<svg class="option-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>`;
+        } else if (i === q.userAnswer) {
+          btn.classList.add('wrong');
+          btn.innerHTML += `<svg class="option-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+        } else {
+          btn.classList.add('dim');
+        }
+      } else {
+        btn.onclick = () => {
+          const { isCorrect, explanation } = this.engine.submitAnswer(i);
+          this.showExplanation(isCorrect, explanation);
+        };
+      }
+      optionsEl.appendChild(btn);
+    });
+
+    if (!q.isAnswered) {
+      document.getElementById('explanation-area').classList.add('hidden');
+    }
+  },
+
+  showExplanation(isCorrect, explanation) {
+    const area = document.getElementById('explanation-area');
+    const badge = document.getElementById('result-badge');
+    const text = document.getElementById('explanation-text');
+
+    badge.textContent = isCorrect ? 'Correct' : 'Incorrect';
+    badge.className = `explanation-badge ${isCorrect ? 'badge-correct' : 'badge-wrong'}`;
+    text.textContent = explanation;
+    area.classList.remove('hidden');
+  },
+
+  showResults(results) {
+    document.getElementById('quiz-active').classList.add('hidden');
+    const resultsEl = document.getElementById('quiz-results');
+    resultsEl.classList.remove('hidden');
+
+    const pct = results.percentage.toFixed(0);
+    document.getElementById('results-score').textContent = `${results.score} / ${results.total}`;
+    document.getElementById('results-subtitle').textContent = `Assessment Complete — Score: ${pct}%`;
+
+    if (results.percentage >= 80) {
+      document.getElementById('award-icon').classList.remove('hidden');
+    }
+
+    const bl = document.getElementById('breakdown-list');
+    bl.innerHTML = '';
+    Object.entries(results.breakdown).forEach(([cat, stats]) => {
+      const pctVal = Math.round((stats.correct / stats.total) * 100);
+      bl.innerHTML += `
+        <div class="breakdown-item">
+          <div class="breakdown-row">
+            <span>${cat}</span>
+            <span>${stats.correct}/${stats.total}</span>
+          </div>
+          <div class="breakdown-bar"><div class="breakdown-fill" style="width:${pctVal}%"></div></div>
+        </div>`;
+    });
+
+    const ml = document.getElementById('meta-list');
+    ml.innerHTML = `
+      <div class="meta-row"><span>Engine Class</span><span>${results.engineClass}</span></div>
+      <div class="meta-row"><span>Time Elapsed</span><span>${(results.timeTaken/1000).toFixed(1)}s</span></div>
+      <div class="meta-row"><span>Questions</span><span>${results.total}</span></div>
+      <div class="meta-row"><span>Score</span><span>${pct}%</span></div>`;
+  },
+
+  showSetup() {
+    document.getElementById('quiz-setup').classList.remove('hidden');
+    document.getElementById('quiz-active').classList.add('hidden');
+    document.getElementById('quiz-results').classList.add('hidden');
+  },
+
+  showActive() {
+    document.getElementById('quiz-setup').classList.add('hidden');
+    document.getElementById('quiz-active').classList.remove('hidden');
+    document.getElementById('quiz-results').classList.add('hidden');
+    document.getElementById('award-icon').classList.add('hidden');
+    document.getElementById('explanation-area').classList.add('hidden');
+    document.getElementById('timer-area').style.display = 'none';
+  }
+};
+
+
+/* ═══════════════════════════════════════════════════
+   MARKDOWN — minimal renderer for AI chat bubbles
+   Demonstrates: pure functions, no class needed for a
+   single-purpose stateless transform.
+════════════════════════════════════════════════════ */
+const Markdown = {
+  escapeHtml(str) {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  },
+
+  /** Inline-level: bold, italic, inline code, links */
+  renderInline(text) {
+    let out = this.escapeHtml(text);
+    out = out.replace(/`([^`]+)`/g, '<code>$1</code>');
+    out = out.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    out = out.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
+    out = out.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+    return out;
+  },
+
+  /** Block-level: fenced code, headers, lists, blockquotes, paragraphs */
+  render(markdown) {
+    const lines = markdown.replace(/\r\n/g, '\n').split('\n');
+    let html = '';
+    let i = 0;
+    let listBuffer = null; // { type: 'ul'|'ol', items: [] }
+
+    const flushList = () => {
+      if (listBuffer) {
+        html += `<${listBuffer.type}>${listBuffer.items.map(it => `<li>${this.renderInline(it)}</li>`).join('')}</${listBuffer.type}>`;
+        listBuffer = null;
+      }
+    };
+
+    while (i < lines.length) {
+      const line = lines[i];
+
+      // Fenced code block
+      if (/^```/.test(line)) {
+        flushList();
+        const codeLines = [];
+        i++;
+        while (i < lines.length && !/^```/.test(lines[i])) { codeLines.push(lines[i]); i++; }
+        i++; // skip closing fence
+        html += `<pre><code>${this.escapeHtml(codeLines.join('\n'))}</code></pre>`;
+        continue;
+      }
+
+      // Headers
+      const headerMatch = line.match(/^(#{1,3})\s+(.*)$/);
+      if (headerMatch) {
+        flushList();
+        const level = headerMatch[1].length;
+        html += `<h${level}>${this.renderInline(headerMatch[2])}</h${level}>`;
+        i++;
+        continue;
+      }
+
+      // Horizontal rule
+      if (/^(---|\*\*\*)\s*$/.test(line)) {
+        flushList();
+        html += '<hr>';
+        i++;
+        continue;
+      }
+
+      // Blockquote
+      if (/^>\s?/.test(line)) {
+        flushList();
+        const quoteLines = [];
+        while (i < lines.length && /^>\s?/.test(lines[i])) {
+          quoteLines.push(lines[i].replace(/^>\s?/, ''));
+          i++;
+        }
+        html += `<blockquote>${this.renderInline(quoteLines.join(' '))}</blockquote>`;
+        continue;
+      }
+
+      // Unordered list item
+      const ulMatch = line.match(/^\s*[-*]\s+(.*)$/);
+      if (ulMatch) {
+        if (!listBuffer || listBuffer.type !== 'ul') { flushList(); listBuffer = { type: 'ul', items: [] }; }
+        listBuffer.items.push(ulMatch[1]);
+        i++;
+        continue;
+      }
+
+      // Ordered list item
+      const olMatch = line.match(/^\s*\d+\.\s+(.*)$/);
+      if (olMatch) {
+        if (!listBuffer || listBuffer.type !== 'ol') { flushList(); listBuffer = { type: 'ol', items: [] }; }
+        listBuffer.items.push(olMatch[1]);
+        i++;
+        continue;
+      }
+
+      // Blank line
+      if (line.trim() === '') { flushList(); i++; continue; }
+
+      // Paragraph
+      flushList();
+      html += `<p>${this.renderInline(line)}</p>`;
+      i++;
+    }
+
+    flushList();
+    return html;
+  }
+};
+
+
+/* ═══════════════════════════════════════════════════
+   AI CHAT CONTROLLER
+════════════════════════════════════════════════════ */
+const AIChat = {
+  client: null,
+  messages: [
+    { role: 'system', content: 'You are an expert on Object-Oriented Programming and you are explaining how the OOP Teaching Quiz App itself is structured using OOP principles. The app uses these classes: EventEmitter (abstract base, demonstrates abstraction), Question (private #correctIndex and #userAnswer, demonstrates encapsulation), QuestionBank (private constructor + static getInstance(), demonstrates Singleton pattern and abstraction), QuizEngine (extends EventEmitter, demonstrates inheritance; encapsulates score), TimedQuizEngine (extends QuizEngine, overrides submitAnswer() and next(), demonstrates polymorphism), MistralClient (private #apiKey and #baseUrl, demonstrates encapsulation), Router (extends EventEmitter, demonstrates inheritance). Answer questions about how OOP is used in this specific codebase. Be precise, technical, and academic. Format your responses in Markdown — use headers, bullet lists, and fenced code blocks where they aid clarity.' },
+    { role: 'assistant', content: 'Hello. I am here to analyze the OOP architecture of this application. Ask me how specific principles — encapsulation, abstraction, inheritance, polymorphism — are implemented in the codebase you are currently browsing.' }
+  ],
+  showKey: false,
+
+  updateKey(val) {
+    if (val.trim()) {
+      this.client = new MistralClient(val.trim());
+      document.getElementById('chat-placeholder').classList.add('hidden');
+      document.getElementById('chat-window').classList.remove('hidden');
+      this.renderMessages();
+    } else {
+      this.client = null;
+      document.getElementById('chat-placeholder').classList.remove('hidden');
+      document.getElementById('chat-window').classList.add('hidden');
+    }
+  },
+
+  toggleKeyVisibility() {
+    this.showKey = !this.showKey;
+    const input = document.getElementById('api-key-input');
+    input.type = this.showKey ? 'text' : 'password';
+  },
+
+  renderMessages() {
+    const container = document.getElementById('chat-messages');
+    container.innerHTML = '';
+    this.messages.filter(m => m.role !== 'system').forEach(m => {
+      this.appendMessage(m.role, m.content);
+    });
+  },
+
+  appendMessage(role, content) {
+    const container = document.getElementById('chat-messages');
+    const div = document.createElement('div');
+    div.className = `chat-message ${role}`;
+
+    const avatar = document.createElement('div');
+    avatar.className = `chat-avatar ${role === 'assistant' ? 'ai' : 'user'}`;
+    avatar.textContent = role === 'assistant' ? 'AI' : 'U';
+
+    const bubble = document.createElement('div');
+    bubble.className = `chat-bubble ${role}`;
+    content.split('\n').filter(l => l.trim()).forEach(line => {
+      const p = document.createElement('p');
+      p.textContent = line;
+      bubble.appendChild(p);
+    });
+
+    if (role === 'assistant') {
+      div.appendChild(avatar);
+      div.appendChild(bubble);
+    } else {
+      div.appendChild(bubble);
+      div.appendChild(avatar);
+    }
+
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+  },
+
+  addTyping() {
+    const container = document.getElementById('chat-messages');
+    const div = document.createElement('div');
+    div.className = 'chat-message';
+    div.id = 'typing-indicator';
+    div.innerHTML = `
+      <div class="chat-avatar ai">AI</div>
+      <div class="chat-bubble chat-typing">Thinking...</div>`;
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+  },
+
+  removeTyping() {
+    const el = document.getElementById('typing-indicator');
+    if (el) el.remove();
+  },
+
+  async send(text) {
+    const input = document.getElementById('chat-input');
+    const message = text || input.value.trim();
+    if (!message || !this.client) return;
+    input.value = '';
+
+    const userMsg = { role: 'user', content: message };
+    this.messages.push(userMsg);
+    this.appendMessage('user', message);
+    this.addTyping();
+
+    // Disable input
+    input.disabled = true;
+
+    try {
+      const reply = await this.client.chat(this.messages);
+      this.removeTyping();
+      const aiMsg = { role: 'assistant', content: reply };
+      this.messages.push(aiMsg);
+      this.appendMessage('assistant', reply);
+    } catch (err) {
+      this.removeTyping();
+      this.appendMessage('assistant', `Error: ${err.message}. Check your API key and ensure you have network access.`);
+    } finally {
+      input.disabled = false;
+      input.focus();
+    }
+  },
+
+  sendSuggestion(btn) {
+    this.send(btn.textContent);
+  }
+};
+
+
+/* ── Init ───────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  // Pre-fill API key if hardcoded for demo
+  // document.getElementById('api-key-input').value = 'your-key-here';
+  console.log(`[OOP Quiz] Loaded. QuestionBank has ${QuestionBank.getInstance().totalCount} questions.`);
+  console.log('[OOP Quiz] Classes: EventEmitter (abstract), Question (encapsulation), QuestionBank (singleton), QuizEngine (inheritance), TimedQuizEngine (polymorphism), MistralClient (encapsulation), Router (inheritance)');
+});
+</script>
+</body>
+</html>
