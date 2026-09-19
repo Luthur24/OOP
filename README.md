@@ -48,7 +48,6 @@ OOP/
 ├── index.html
 └── README.md
 
-Live Demo
 
 Live Website:
 https://oop-ashen.vercel.app/
